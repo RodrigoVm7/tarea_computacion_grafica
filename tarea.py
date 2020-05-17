@@ -56,9 +56,35 @@ class Imagen:
 				Ierosionada[x-tamasex, y-tamasey]=minimo
 		self.__imResultante = np.uint8(Ierosionada)
 
+	def apertura(self, ee):
+		self.erosionar(ee)
+		Iero=self.obtenerImagenProcesada()
+		self.__init__(Iero)
+		self.dilatar(ee)
+		self.mostrarImagenProcesada('Apertura')
 
+	def cierre(self, ee):
+		self.dilatar(ee)
+		Idil=self.obtenerImagenProcesada()
+		self.__init__(Idil)
+		self.erosionar(ee)
+		self.mostrarImagenProcesada('Cierre')
+
+
+#Apertura metodo
+
+I = cv2.imread('lena.jpg')
+im = Imagen(I)
+ee = np.ones((3,3), np.uint8)
+im.apertura(ee)
+
+#Cierre metodo
+im2 = Imagen(I)
+im2.cierre(ee)
+
+'''
 #Apertura
-I = cv2.imread('cameraman.tif')
+I = cv2.imread('lena.jpg')
 ee = np.ones((3,3), np.uint8)
 im = Imagen(I)
 im.erosionar(ee)
@@ -77,3 +103,4 @@ im2.erosionar(ee)
 Ic = im2.obtenerImagenProcesada()
 cv2.imshow('Cierre', Ic)
 cv2.waitKey(0)
+'''
