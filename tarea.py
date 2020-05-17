@@ -57,6 +57,7 @@ class Imagen:
 		self.__imResultante = np.uint8(Ierosionada)
 
 
+#Apertura
 I = cv2.imread('cameraman.tif')
 ee = np.ones((3,3), np.uint8)
 im = Imagen(I)
@@ -66,4 +67,13 @@ im = Imagen(Ie)
 im.dilatar(ee)
 Ia = im.obtenerImagenProcesada()
 cv2.imshow('Apertura', Ia)
+
+#Cierre
+im2 = Imagen(I)
+im2.dilatar(ee)
+Id = im2.obtenerImagenProcesada()
+im2 = Imagen(Id)
+im2.erosionar(ee)
+Ic = im2.obtenerImagenProcesada()
+cv2.imshow('Cierre', Ic)
 cv2.waitKey(0)
