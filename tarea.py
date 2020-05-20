@@ -56,6 +56,15 @@ class Imagen:
 				Ierosionada[x-tamasex, y-tamasey]=minimo
 		self.__imResultante = np.uint8(Ierosionada)
 
+	def iteracionDil(self,ee,N):
+		for x in range(0,N):
+			self.dilatar(ee)
+			#self.mostrarImagenProcesada('Dilatacion')
+			Idil=self.obtenerImagenProcesada()
+			self.__init__(Idil)
+
+
+
 	def apertura(self, ee):
 		self.erosionar(ee)
 		Iero=self.obtenerImagenProcesada()
@@ -71,6 +80,14 @@ class Imagen:
 		self.mostrarImagenProcesada('Cierre')
 
 
+
+
+I = cv2.imread('lena.jpg')
+im = Imagen(I)
+ee = np.ones((3,3), np.uint8)
+im.iteracionDil(ee,2)	
+
+'''
 #Apertura metodo
 
 I = cv2.imread('lena.jpg')
@@ -82,7 +99,7 @@ im.apertura(ee)
 im2 = Imagen(I)
 im2.cierre(ee)
 
-'''
+
 #Apertura
 I = cv2.imread('lena.jpg')
 ee = np.ones((3,3), np.uint8)
