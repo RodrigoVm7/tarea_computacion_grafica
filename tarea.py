@@ -7,7 +7,7 @@ class Imagen:
 		self.__imResultante = np.zeros(self.__img.shape, self.__img.dtype)
 	def mostrarImagenOriginal(self):
 		cv2.imshow('imagen', self.__img)
-		#cv2.waitKey(0)
+		cv2.waitKey(0)
 	def mostrarImagenProcesada(self, resultado):
 		cv2.imshow(resultado, self.__imResultante)
 		cv2.waitKey(0)
@@ -56,13 +56,19 @@ class Imagen:
 				Ierosionada[x-tamasex, y-tamasey]=minimo
 		self.__imResultante = np.uint8(Ierosionada)
 
-	def iteracionDil(self,ee,N):
-		for x in range(0,N):
+	def iteracionDil(self, ee, N):
+		for x in range(0, N):
 			self.dilatar(ee)
 			#self.mostrarImagenProcesada('Dilatacion')
 			Idil=self.obtenerImagenProcesada()
 			self.__init__(Idil)
 
+	def iteracionEro(self, ee, N):
+		for x in range(0, N):
+			self.erosionar(ee)
+			#self.mostrarImagenProcesada('Erosion')
+			Iero=self.obtenerImagenProcesada()
+			self.__init__(Iero)
 
 
 	def apertura(self, ee):
@@ -80,12 +86,19 @@ class Imagen:
 		self.mostrarImagenProcesada('Cierre')
 
 
-
+#Iteracion Dilatar
 
 I = cv2.imread('lena.jpg')
 im = Imagen(I)
 ee = np.ones((3,3), np.uint8)
-im.iteracionDil(ee,2)	
+im.iteracionDil(ee,2)
+im.mostrarImagenOriginal() #muestra la imagen resultante una vez hechas las N dilataciones
+
+#Iteracion Erosionar
+
+im2 = Imagen(I)
+im2.iteracionEro(ee,2)
+im2.mostrarImagenOriginal() #muestra la imagen resultante una vez hechas las N erosiones
 
 '''
 #Apertura metodo
@@ -95,12 +108,15 @@ im = Imagen(I)
 ee = np.ones((3,3), np.uint8)
 im.apertura(ee)
 
+
 #Cierre metodo
+
 im2 = Imagen(I)
 im2.cierre(ee)
 
 
 #Apertura
+
 I = cv2.imread('lena.jpg')
 ee = np.ones((3,3), np.uint8)
 im = Imagen(I)
@@ -110,6 +126,7 @@ im = Imagen(Ie)
 im.dilatar(ee)
 Ia = im.obtenerImagenProcesada()
 cv2.imshow('Apertura', Ia)
+
 
 #Cierre
 im2 = Imagen(I)
